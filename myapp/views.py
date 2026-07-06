@@ -21,4 +21,10 @@ def student(request):
         data = Student.objects.all()
         serializers = StudentSerializers(data, many=True)
         return Response(serializers.data)
-        
+    elif request.method == 'POST':
+        data = request.data
+        serializers = StudentSerializers(data=data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        return Response(serializers.errors)
